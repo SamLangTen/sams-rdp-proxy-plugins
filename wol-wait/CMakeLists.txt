@@ -1,20 +1,24 @@
-pkg_check_modules(LIBWOL REQUIRED libwakeonlan --static)
-
 add_library(proxy-wol-wait SHARED
     wol_wait.c
 )
 
 target_include_directories(proxy-wol-wait PRIVATE
     ${FREERDP_INCLUDE_DIRS}
-    ${LIBWOL_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
+    ${WINPR_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/../common
 )
 
+target_link_directories(proxy-wol-wait PRIVATE
+    ${FREERDP_SERVER_LIBRARY_DIRS}
+    ${FREERDP_SERVER_PROXY_LIBRARY_DIRS}
+    ${FREETYPE_LIBRARY_DIRS}
+)
+
 target_link_libraries(proxy-wol-wait PRIVATE
-    freerdp-server
-    freerdp
-    ${LIBWOL_STATIC_LIBRARIES}
+    ${FREERDP_SERVER_LIBRARIES}
+    ${FREERDP_SERVER_PROXY_LIBRARIES}
+    ${FREETYPE_LIBRARIES}
     text_renderer
 )
 
